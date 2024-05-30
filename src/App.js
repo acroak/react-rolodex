@@ -5,7 +5,8 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-        profiles:[],
+        profiles: [],
+        searchField: '',
     };
     console.log('constructor');
   }
@@ -29,12 +30,21 @@ class App extends Component {
                 console.log(this.state)
             }
         )
-        )
+    );
 
   }
 
   render() {
     console.log('render');
+
+    // filter() creates a new array based on the returned includes boolean
+    // if this profile name includes this searched string, keep it. else get rid of it.
+    // searches the untouched/un-edited original list of profiles to generate the displayed list down in render()
+    const filteredProfiles = this.state.profiles.filter((profile) => {
+        //includes() returns a boolean
+        return profile.name.toLowerCase().includes(this.state.searchField);
+    });
+
     return(
         <div className='App'>
             <h1>Rolodex</h1>
@@ -46,27 +56,22 @@ class App extends Component {
                 onChange={ (event) => {
                     // console.log(event);
                     // console.log(event.target.value);
-                    const searchString = event.target.value.toLowerCase();
-                    // filter() creates a new array based on the returned includes boolean
-                    // if this profile name includes this searched string, keep it. else get rid of it.
-                    const filteredProfiles = this.state.profiles.filter((profile) => {
-                        //includes() returns a boolean
-                        return profile.name.toLowerCase().includes(event.target.value);
-                    });
+                    const searchField = event.target.value.toLowerCase();
                     //change the state
                     this.setState(() => {
-                        return{ profiles: filteredProfiles }
+                        return{ searchField }
                     })
                 }}
             />
-            {this.state.profiles.map((profile) => {
+            {/* map over the filtered list of profiles */}
+            { filteredProfiles.map((profile) => {
                 return (
                     <div key={profile.id}>
                         <h2>{profile.name}</h2>
                         
                     </div>
                 )
-            })}
+            })};
         </div>
     );
     }
