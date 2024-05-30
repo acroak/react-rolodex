@@ -7,22 +7,22 @@ class App extends Component {
     this.state = {
         profiles:[],
     };
+    console.log('constructor');
   }
 
-  //code to run whenever the component mounts
+  
   componentDidMount(){
+    console.log('componentDidMount');
     //API request for array of user pofiles
     fetch('https://jsonplaceholder.typicode.com/users')
-    // fetch creates a promise, which is asynchronous in JS. Promises to eventually have a value. once you have a response you .then
         .then(response => 
             //convert response body into JSON
             response.json()
         )
-        //you can append more statements, in this case the users parameter comes from the resolved value of the promise returned by response.json()
         .then((users) => 
-            // set as state
+            // set state of profile array
             this.setState(() => {
-                return {profiles: users}
+                return { profiles: users }
             },
             // callback for when the set state is finished to make sure state has the correct value
             () => {
@@ -34,9 +34,31 @@ class App extends Component {
   }
 
   render() {
+    console.log('render');
     return(
         <div className='App'>
             <h1>Rolodex</h1>
+            {/* filter out elements of the array based on input data */}
+            <input 
+                className='search-box' 
+                type='search' 
+                placeholder='search profiles' 
+                onChange={ (event) => {
+                    // console.log(event);
+                    // console.log(event.target.value);
+                    const searchString = event.target.value.toLowerCase();
+                    // filter() creates a new array based on the returned includes boolean
+                    // if this profile name includes this searched string, keep it. else get rid of it.
+                    const filteredProfiles = this.state.profiles.filter((profile) => {
+                        //includes() returns a boolean
+                        return profile.name.toLowerCase().includes(event.target.value);
+                    });
+                    //change the state
+                    this.setState(() => {
+                        return{ profiles: filteredProfiles }
+                    })
+                }}
+            />
             {this.state.profiles.map((profile) => {
                 return (
                     <div key={profile.id}>
