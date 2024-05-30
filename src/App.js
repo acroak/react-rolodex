@@ -1,5 +1,10 @@
 import { Component } from 'react';
+
+import CardList from './components/card-list/card-list.component.jsx';
+import SearchBox from './components/search-box/search-box.component.jsx';
+
 import './App.css';
+
 
 class App extends Component {
   constructor(){
@@ -13,7 +18,6 @@ class App extends Component {
 
   
   componentDidMount(){
-    console.log('componentDidMount');
     //API request for array of user pofiles
     fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => 
@@ -40,8 +44,6 @@ class App extends Component {
     * searches the untouched/un-edited original list of profiles to generate the displayed list down in render()
   */
   onSearchChange = (event) => {
-    // console.log(event);
-    // console.log(event.target.value);
     const searchField = event.target.value.toLocaleLowerCase();
     //change the state
         this.setState(() => {
@@ -50,8 +52,6 @@ class App extends Component {
     };
 
   render() {
-    console.log('render');
-
     // destructuring, shorten the length of variable names
     const { profiles, searchField } = this.state;
     const { onSearchChange } = this;
@@ -64,23 +64,13 @@ class App extends Component {
     return(
         <div className='App'>
             <h1>Rolodex</h1>
-            {/* search through profiles */}
-            <input 
-                className='search-box' 
-                type='search' 
-                placeholder='search profiles' 
-                onChange={ onSearchChange }
+            <SearchBox 
+                className = 'search-box'
+                placeholder = 'search profiles'
+                onChangeHandler = {onSearchChange}  
             />
+            <CardList profiles = {filteredProfiles}/>
 
-            {/* map over the filtered list of profiles */}
-            { filteredProfiles.map((profile) => {
-                return (
-                    <div key={profile.id}>
-                        <h2>{profile.name}</h2>
-                        
-                    </div>
-                )
-            })};
         </div>
     );
     }
