@@ -34,7 +34,11 @@ class App extends Component {
 
   }
 
-  // filter out elements of the array based on input data
+  /* filter out elements of the array based on input data
+    * filter() creates a new array based on the returned includes boolean
+    * if this profile name includes this searched string, keep it. else get rid of it.
+    * searches the untouched/un-edited original list of profiles to generate the displayed list down in render()
+  */
   onSearchChange = (event) => {
     // console.log(event);
     // console.log(event.target.value);
@@ -48,24 +52,26 @@ class App extends Component {
   render() {
     console.log('render');
 
-    // filter() creates a new array based on the returned includes boolean
-    // if this profile name includes this searched string, keep it. else get rid of it.
-    // searches the untouched/un-edited original list of profiles to generate the displayed list down in render()
-    const filteredProfiles = this.state.profiles.filter((profile) => {
+    // destructuring, shorten the length of variable names
+    const { profiles, searchField } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredProfiles = profiles.filter((profile) => {
         //includes() returns a boolean
-        return profile.name.toLocaleLowerCase().includes(this.state.searchField);
+        return profile.name.toLocaleLowerCase().includes(searchField);
     });
 
     return(
         <div className='App'>
             <h1>Rolodex</h1>
-
+            {/* search through profiles */}
             <input 
                 className='search-box' 
                 type='search' 
                 placeholder='search profiles' 
-                onChange={ this.onSearchChange }
+                onChange={ onSearchChange }
             />
+
             {/* map over the filtered list of profiles */}
             { filteredProfiles.map((profile) => {
                 return (
