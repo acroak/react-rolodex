@@ -1,18 +1,21 @@
 import { Component } from "react";
 
-class CardList extends Component {
-    render(){
-        // Whenever props are different, the component will re-render
-        const { profiles } = this.props;
+import Card from "../card/card.component";
+import "./card-list.styles.css";
 
+class CardList extends Component {
+    render() {
+        const { profiles } = this.props;
+        
         return (
-            <div>
-            {/* map over the filtered list of profiles */}
-                { profiles.map( profile => (
-                    <div key={profile.id}>
-                         <h2>{profile.name}</h2>     
-                    </div>
-                ))}
+            <div className='card-list'>
+            
+                { profiles.map( (profile) => {
+                
+                    return(
+                       <Card profile = {profile} />
+                    );
+                })}
             </div>
         )
     }
