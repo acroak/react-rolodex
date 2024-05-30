@@ -34,6 +34,17 @@ class App extends Component {
 
   }
 
+  // filter out elements of the array based on input data
+  onSearchChange = (event) => {
+    // console.log(event);
+    // console.log(event.target.value);
+    const searchField = event.target.value.toLocaleLowerCase();
+    //change the state
+        this.setState(() => {
+            return{ searchField };
+        });
+    };
+
   render() {
     console.log('render');
 
@@ -42,26 +53,18 @@ class App extends Component {
     // searches the untouched/un-edited original list of profiles to generate the displayed list down in render()
     const filteredProfiles = this.state.profiles.filter((profile) => {
         //includes() returns a boolean
-        return profile.name.toLowerCase().includes(this.state.searchField);
+        return profile.name.toLocaleLowerCase().includes(this.state.searchField);
     });
 
     return(
         <div className='App'>
             <h1>Rolodex</h1>
-            {/* filter out elements of the array based on input data */}
+
             <input 
                 className='search-box' 
                 type='search' 
                 placeholder='search profiles' 
-                onChange={ (event) => {
-                    // console.log(event);
-                    // console.log(event.target.value);
-                    const searchField = event.target.value.toLowerCase();
-                    //change the state
-                    this.setState(() => {
-                        return{ searchField }
-                    })
-                }}
+                onChange={ this.onSearchChange }
             />
             {/* map over the filtered list of profiles */}
             { filteredProfiles.map((profile) => {
