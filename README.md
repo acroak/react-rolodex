@@ -2,6 +2,12 @@
 
 Interacting with an API to display a list of profiles and information
 
+
+https://github.com/acroak/react-rolodex/assets/38078917/611f0442-f01a-4b6e-a504-02c020445653
+
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
